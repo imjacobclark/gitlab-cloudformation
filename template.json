@@ -134,6 +134,8 @@
     "gitlabRDSInstance": {
       "Type": "AWS::RDS::DBInstance",
       "Properties": {
+        "AllocatedStorage": "100",
+        "DBInstanceClass": "t2.medium",
 	"DBInstanceIdentifier": "hitlab-db-ha",
 	"DBName": "gitlabhq_production",
 	"Engine": "PostgreSQL",
