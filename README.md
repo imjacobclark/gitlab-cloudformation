@@ -7,5 +7,5 @@ This is a work in progress...
 There are some variables in this cloudformation template that you will need to replace:
 
 ```
-sed template.json -i -e "$DBPASSWORD <password>"ageFile
+sed template.json -i -e "$DBPASSWORD <password>"
 ```
