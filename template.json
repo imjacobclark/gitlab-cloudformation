@@ -118,26 +118,55 @@
         ]
       }
     },
-    "gitlabDBSubnetGroup" : {
+    "gitlabDBSubnetGroup": {
       "Type": "AWS::RDS::DBSubnetGroup",
       "Properties": {
-        "DBSubnetGroupDescription" : "Private GitLab Subnet",
+        "DBSubnetGroupDescription": "Private GitLab Subnet",
         "SubnetIds": [ { "Ref": "gitlabPrivate10010" }, {"Ref": "gitlabPrivate10030" } ]
       }
     },
     "gitlabRDSInstance": {
-      "Type" : "AWS::RDS::DBInstance",
-      "Properties" : {
-        "DBName" : { "Ref" : "gitlab-db-ha" },
-        "AllocatedStorage" : { "Ref" : "DBAllocatedStorage" },
-        "DBInstanceClass" : { "Ref" : "DBInstanceClass" },
-        "Engine" : "PostgreSQL",
-        "MasterUsername" : { "Ref" : "gitlab" },
-        "MasterUserPassword" : { "Ref" : "DBPassword" },
+      "Type": "AWS::RDS::DBInstance",
+      "Properties": {
+        "DBInstanceIdentifier": "hitlab-db-ha",
+        "DBName": "gitlabhq_production",
+        "Engine": "PostgreSQL",
+        "MasterUsername": { "Ref" : "gitlab" },
+        "MasterUserPassword": { "Ref" : "$DBPASSWORD" },
         "LicenseModel": "postgresql-license",
         "PubliclyAccessible": false,
         "MultiAZ": true,
-        "DBSubnetGroupName" : "gitlabDBSubnetGroup"
+        "DBSubnetGroupName": "gitlabDBSubnetGroup"
+      }
+    },
+    "gitlabRedisSubnetGroup" : {
+      "Type" : "AWS::ElastiCache::SubnetGroup",
+      "Properties" : {
+        "Description" : "Gitlab Redis Subnet",
+        "SubnetIds": [ { "Ref": "gitlabPrivate10010" }, {"Ref": "gitlabPrivate10030" } ]
+      }
+    },
+    "gitlabRedis": {
+      "Type": "AWS::ElastiCache::CacheCluster",
+      "Properties": {
+        "AutoMinorVersionUpgrade": "true",
+        "Engine": "redis",
+        "EngineVersion": "3.2.10",
+        "CacheNodeType": "cache.t2.micro",
+        ;;;;"NumCacheNodes": "1",
+        ;;;;"VpcSecurityGroupIds": [{"Fn::GetAtt": [ "ElasticacheSecurityGroup", "GroupId"]}],
+        "CacheSubnetGroupName": "gitlabRedisSubnetGroup"
+      }
+    },
+    "gitlabLoadBalancer": {
+      "Type": "AWS::ElasticLoadBalancingV2::LoadBalancer",
+      "Properties": {    
+        "Name": "gitlab-loadbalancer",
+        "Scheme": "internet-facing",
+        ;;;;"SecurityGroups": [ String, ... ],
+        ;;;;"SubnetMappings": [ SubnetMapping, ... ],
+        ;;;;"Subnets": [ String, ... ],
+        "Type": "application"
       }
     }
   }
