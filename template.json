@@ -194,7 +194,9 @@
 	"InstanceType": "c4.xlarge",
 	"ImageId": "Gitlab EE 11.8.0",
         "IamInstanceProfile": "GitLabAdmin",
-        "AssociatePublicIpAddress": false
+        "AssociatePublicIpAddress": false,
+        "EbsOptimized": true,
+        "InstanceMonitoring": true
       }
     }
   }
