@@ -4,56 +4,56 @@
     "gitlabVpc": {
       "Type": "AWS::EC2::VPC",
       "Properties": {
-        "CidrBlock": "10.0.0.0/16",
-        "InstanceTenancy": "default"
+	"CidrBlock": "10.0.0.0/16",
+	"InstanceTenancy": "default"
       }
     },
     "gitlabPublic10000": {
       "Type": "AWS::EC2::Subnet",
       "Properties": {
-        "VpcId": {
-          "Ref": "gitlabVpc"
-        },
-        "CidrBlock": "10.0.0.0/24",
-        "AvailabilityZone": "eu-west-1a"
+	"VpcId": {
+	  "Ref": "gitlabVpc"
+	},
+	"CidrBlock": "10.0.0.0/24",
+	"AvailabilityZone": "eu-west-1a"
       }
     },
     "gitlabPublic10020": {
       "Type": "AWS::EC2::Subnet",
       "Properties": {
-        "VpcId": {
-          "Ref": "gitlabVpc"
-        },
-        "CidrBlock": "10.0.2.0/24",
-        "AvailabilityZone": "eu-west-1b"
+	"VpcId": {
+	  "Ref": "gitlabVpc"
+	},
+	"CidrBlock": "10.0.2.0/24",
+	"AvailabilityZone": "eu-west-1b"
       }
     },
     "gitlabPrivate10010": {
       "Type": "AWS::EC2::Subnet",
       "Properties": {
-        "VpcId": {
-          "Ref": "gitlabVpc"
-        },
-        "CidrBlock": "10.0.1.0/24",
-        "AvailabilityZone": "eu-west-1a"
+	"VpcId": {
+	  "Ref": "gitlabVpc"
+	},
+	"CidrBlock": "10.0.1.0/24",
+	"AvailabilityZone": "eu-west-1a"
       }
     },
     "gitlabPrivate10030": {
       "Type": "AWS::EC2::Subnet",
       "Properties": {
-        "VpcId": {
-          "Ref": "gitlabVpc"
-        },
-        "CidrBlock": "10.0.3.0/24",
-        "AvailabilityZone": "eu-west-1b"
+	"VpcId": {
+	  "Ref": "gitlabVpc"
+	},
+	"CidrBlock": "10.0.3.0/24",
+	"AvailabilityZone": "eu-west-1b"
       }
     },
     "gitlabPublic": {
       "Type": "AWS::EC2::RouteTable",
       "Properties": {
-        "VpcId": {
-          "Ref": "gitlabVpc"
-        }
+	"VpcId": {
+	  "Ref": "gitlabVpc"
+	}
       }
     },
     "gitlabGateway": {
@@ -62,112 +62,137 @@
     "attachGitLabGatewayToGitLabVpc" : {
       "Type" : "AWS::EC2::VPCGatewayAttachment",
       "Properties" : {
-        "VpcId" : { "Ref" : "gitlabVpc" },
-        "InternetGatewayId" : { "Ref" : "gitlabGateway" }
+	"VpcId" : { "Ref" : "gitlabVpc" },
+	"InternetGatewayId" : { "Ref" : "gitlabGateway" }
       }
     },
     "gitlabRoute" : {
       "Type" : "AWS::EC2::Route",
       "DependsOn" : "gitlabGateway",
       "Properties" : {
-        "RouteTableId" : { "Ref" : "gitlabPublic" },
-        "DestinationCidrBlock" : "0.0.0.0/0",
-        "GatewayId" : { "Ref" : "gitlabGateway" }
+	"RouteTableId" : { "Ref" : "gitlabPublic" },
+	"DestinationCidrBlock" : "0.0.0.0/0",
+	"GatewayId" : { "Ref" : "gitlabGateway" }
       }
     },
     "gitlabPublic10020Assoc" : {
       "Type" : "AWS::EC2::SubnetRouteTableAssociation",
       "Properties" : {
-        "SubnetId" : { "Ref" : "gitlabPublic10020" },
-        "RouteTableId" : { "Ref" : "gitlabPublic" }
+	"SubnetId" : { "Ref" : "gitlabPublic10020" },
+	"RouteTableId" : { "Ref" : "gitlabPublic" }
       }
     },
     "gitlabPublic10000Assoc" : {
       "Type" : "AWS::EC2::SubnetRouteTableAssociation",
       "Properties" : {
-        "SubnetId" : { "Ref" : "gitlabPublic10000" },
-        "RouteTableId" : { "Ref" : "gitlabPublic" }
+	"SubnetId" : { "Ref" : "gitlabPublic10000" },
+	"RouteTableId" : { "Ref" : "gitlabPublic" }
       }
     },
     "gitlabSecurityGroup": {
       "Type": "AWS::EC2::SecurityGroup",
       "Properties": {
-        "GroupDescription": "GitLab Securit Group",
-        "VpcId": {
-          "Ref": "gitlabVpc"
-        },
-        "SecurityGroupIngress": [
-          {
-            "IpProtocol": "tcp",
-            "FromPort": 80,
-            "ToPort": 80,
-            "CidrIp": "0.0.0.0/0"
-          },
-          {
-            "IpProtocol": "tcp",
-            "FromPort": 443,
-            "ToPort": 443,
-            "CidrIp": "0.0.0.0/0"
-          },
-          {
-            "IpProtocol": "tcp",
-            "FromPort": 22,
-            "ToPort": 22,
-            "CidrIp": "0.0.0.0/0"
-          }
-        ]
+	"GroupDescription": "GitLab Securit Group",
+	"VpcId": {
+	  "Ref": "gitlabVpc"
+	},
+	"SecurityGroupIngress": [
+	  {
+	    "IpProtocol": "tcp",
+	    "FromPort": 80,
+	    "ToPort": 80,
+	    "CidrIp": "0.0.0.0/0"
+	  },
+	  {
+	    "IpProtocol": "tcp",
+	    "FromPort": 443,
+	    "ToPort": 443,
+	    "CidrIp": "0.0.0.0/0"
+	  },
+	  {
+	    "IpProtocol": "tcp",
+	    "FromPort": 22,
+	    "ToPort": 22,
+	    "CidrIp": "0.0.0.0/0"
+	  }
+	]
       }
     },
     "gitlabDBSubnetGroup": {
       "Type": "AWS::RDS::DBSubnetGroup",
       "Properties": {
-        "DBSubnetGroupDescription": "Private GitLab Subnet",
-        "SubnetIds": [ { "Ref": "gitlabPrivate10010" }, {"Ref": "gitlabPrivate10030" } ]
+	"DBSubnetGroupDescription": "Private GitLab Subnet",
+	"SubnetIds": [ { "Ref": "gitlabPrivate10010" }, {"Ref": "gitlabPrivate10030" } ]
       }
     },
     "gitlabRDSInstance": {
       "Type": "AWS::RDS::DBInstance",
       "Properties": {
-        "DBInstanceIdentifier": "hitlab-db-ha",
-        "DBName": "gitlabhq_production",
-        "Engine": "PostgreSQL",
-        "MasterUsername": { "Ref" : "gitlab" },
-        "MasterUserPassword": { "Ref" : "$DBPASSWORD" },
-        "LicenseModel": "postgresql-license",
-        "PubliclyAccessible": false,
-        "MultiAZ": true,
-        "DBSubnetGroupName": "gitlabDBSubnetGroup"
+	"DBInstanceIdentifier": "hitlab-db-ha",
+	"DBName": "gitlabhq_production",
+	"Engine": "PostgreSQL",
+	"MasterUsername": { "Ref" : "gitlab" },
+	"MasterUserPassword": { "Ref" : "$DBPASSWORD" },
+	"LicenseModel": "postgresql-license",
+	"PubliclyAccessible": false,
+	"MultiAZ": true,
+	"DBSubnetGroupName": "gitlabDBSubnetGroup"
       }
     },
     "gitlabRedisSubnetGroup" : {
       "Type" : "AWS::ElastiCache::SubnetGroup",
       "Properties" : {
-        "Description" : "Gitlab Redis Subnet",
-        "SubnetIds": [ { "Ref": "gitlabPrivate10010" }, {"Ref": "gitlabPrivate10030" } ]
+	"Description" : "Gitlab Redis Subnet",
+	"SubnetIds": [ { "Ref": "gitlabPrivate10010" }, {"Ref": "gitlabPrivate10030" } ]
       }
     },
     "gitlabRedis": {
       "Type": "AWS::ElastiCache::CacheCluster",
       "Properties": {
-        "AutoMinorVersionUpgrade": "true",
-        "Engine": "redis",
-        "EngineVersion": "3.2.10",
-        "CacheNodeType": "cache.t2.micro",
-        ;;;;"NumCacheNodes": "1",
-        ;;;;"VpcSecurityGroupIds": [{"Fn::GetAtt": [ "ElasticacheSecurityGroup", "GroupId"]}],
-        "CacheSubnetGroupName": "gitlabRedisSubnetGroup"
+	"AutoMinorVersionUpgrade": "true",
+	"Engine": "redis",
+	"EngineVersion": "3.2.10",
+	"CacheNodeType": "cache.t2.micro",
+	;;;;"NumCacheNodes": "1",
+	;;;;"VpcSecurityGroupIds": [{"Fn::GetAtt": [ "ElasticacheSecurityGroup", "GroupId"]}],
+	"CacheSubnetGroupName": "gitlabRedisSubnetGroup"
       }
     },
     "gitlabLoadBalancer": {
       "Type": "AWS::ElasticLoadBalancingV2::LoadBalancer",
       "Properties": {    
-        "Name": "gitlab-loadbalancer",
-        "Scheme": "internet-facing",
-        ;;;;"SecurityGroups": [ String, ... ],
-        ;;;;"SubnetMappings": [ SubnetMapping, ... ],
-        ;;;;"Subnets": [ String, ... ],
-        "Type": "application"
+	"Name": "gitlab-loadbalancer",
+	"Scheme": "internet-facing",
+	;;;;"SecurityGroups": [ String, ... ],
+	;;;;"SubnetMappings": [ SubnetMapping, ... ],
+	;;;;"Subnets": [ String, ... ],
+	"Type": "application"
+      }
+    },
+    ;;;;"Listener": {
+    ;;;;  "Type": "AWS::ElasticLoadBalancingV2::Listener",
+    ;;;;  "Properties": {
+    ;;;;    "DefaultActions": [{
+    ;;;;      "Type": "forward",
+    ;;;;      "TargetGroupArn": { "Ref": "myTargetGroup" }
+    ;;;;    }],
+    ;;;;    "LoadBalancerArn": { "Ref": "myLoadBalancer" },
+    ;;;;    "Port": "8000",
+    ;;;;    "Protocol": "HTTP"
+    ;;;;  }
+    ;;;;},
+    "gitLabAutoScalingGroup" : {
+      "Type" : "AWS::AutoScaling::AutoScalingGroup",
+      "Properties" : {
+	"AutoScalingGroupName": "gitlab-autoscaling-group",
+	"LaunchConfigurationName" : { "Ref" : "LaunchConfig" },
+	"MinSize" : "2",
+	"MaxSize" : "4",
+	"TargetGroupARNs": [ { "Ref": "gitlabLoadBalancer" } ],
+	"VPCZoneIdentifier": [ { "Ref": "gitlabPrivate10010" }, {"Ref": "gitlabPrivate10030" } ],
+	"HealthCheckType": "ELB"
       }
     }
   }
 }
+
