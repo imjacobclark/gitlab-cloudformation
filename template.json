@@ -192,7 +192,9 @@
 	"VPCZoneIdentifier": [ { "Ref": "gitlabPrivate10010" }, {"Ref": "gitlabPrivate10030" } ],
 	"HealthCheckType": "ELB",
 	"InstanceType": "c4.xlarge",
-	"ImageId": "Gitlab EE 11.8.0"
+	"ImageId": "Gitlab EE 11.8.0",
+        "IamInstanceProfile": "GitLabAdmin",
+        "AssociatePublicIpAddress": false
       }
     }
   }
