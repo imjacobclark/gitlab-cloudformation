@@ -196,7 +196,8 @@
         "IamInstanceProfile": "GitLabAdmin",
         "AssociatePublicIpAddress": false,
         "EbsOptimized": true,
-        "InstanceMonitoring": true
+        "InstanceMonitoring": true,
+        "SecurityGroups": [ { "Ref": "gitlabLoadBalancerSecurityGroup" }]
       }
     }
   }
