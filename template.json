@@ -190,7 +190,9 @@
 	"MaxSize" : "4",
 	"TargetGroupARNs": [ { "Ref": "gitlabLoadBalancer" } ],
 	"VPCZoneIdentifier": [ { "Ref": "gitlabPrivate10010" }, {"Ref": "gitlabPrivate10030" } ],
-	"HealthCheckType": "ELB"
+	"HealthCheckType": "ELB",
+	"InstanceType": "c4.xlarge",
+	"ImageId": "Gitlab EE 11.8.0"
       }
     }
   }
