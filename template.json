@@ -92,7 +92,7 @@
     "gitlabSecurityGroup": {
       "Type": "AWS::EC2::SecurityGroup",
       "Properties": {
-	"GroupDescription": "GitLab Securit Group",
+	"GroupDescription": "GitLab Security Group",
 	"VpcId": {
 	  "Ref": "gitlabVpc"
 	},
@@ -114,6 +114,12 @@
 	    "FromPort": 22,
 	    "ToPort": 22,
 	    "CidrIp": "0.0.0.0/0"
+	  },
+	  {
+	    "IpProtocol": "tcp",
+	    "FromPort": 6379,
+	    "ToPort": "https://docs.gitlab.com/ee/install/aws/#rds-and-redis-security-group",
+	    "CidrIp": "https://docs.gitlab.com/ee/install/aws/#rds-and-redis-security-group"
 	  }
 	]
       }
@@ -157,6 +163,8 @@
 	;;;;"VpcSecurityGroupIds": [{"Fn::GetAtt": [ "ElasticacheSecurityGroup", "GroupId"]}],
 	"CacheSubnetGroupName": "gitlabRedisSubnetGroup"
       }
+    },
+    "gitlabLoadBalancerSecurityGroup": {
     },
     "gitlabLoadBalancer": {
       "Type": "AWS::ElasticLoadBalancingV2::LoadBalancer",
