@@ -172,9 +172,7 @@
       "Properties": {    
 	"Name": "gitlab-loadbalancer",
 	"Scheme": "internet-facing",
-	;;;;"SecurityGroups": [ String, ... ],
-	;;;;"SubnetMappings": [ SubnetMapping, ... ],
-	;;;;"Subnets": [ String, ... ],
+	"Subnets": [ { "Ref": "gitlabPublic10000" }, {"Ref": "gitlabPublic10020" } ],
 	"Type": "application"
       }
     },
@@ -191,12 +189,12 @@
     ;;;;  }
     ;;;;},
     "gitLabAutoScalingGroup" : {
-      "Type" : "AWS::AutoScaling::AutoScalingGroup",
-      "Properties" : {
+      "Type": "AWS::AutoScaling::AutoScalingGroup",
+      "Properties": {
 	"AutoScalingGroupName": "gitlab-autoscaling-group",
-	"LaunchConfigurationName" : { "Ref" : "LaunchConfig" },
-	"MinSize" : "2",
-	"MaxSize" : "4",
+	"LaunchConfigurationName": { "Ref" : "LaunchConfig" },
+	"MinSize": "2",
+	"MaxSize": "4",
 	"TargetGroupARNs": [ { "Ref": "gitlabLoadBalancer" } ],
 	"VPCZoneIdentifier": [ { "Ref": "gitlabPrivate10010" }, {"Ref": "gitlabPrivate10030" } ],
 	"HealthCheckType": "ELB",
