@@ -161,7 +161,7 @@
 	"EngineVersion": "3.2.10",
 	"CacheNodeType": "cache.t2.micro",
 	"NumCacheNodes": 2,
-	"VpcSecurityGroupIds": [{ "Ref": "gitlabSecurityGroup" ]}],
+	"VpcSecurityGroupIds": [{ "Ref": "gitlabSecurityGroup" }],
 	"CacheSubnetGroupName": "gitlabRedisSubnetGroup"
       }
     },
