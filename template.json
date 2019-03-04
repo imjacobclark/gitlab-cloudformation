@@ -176,18 +176,30 @@
 	"Type": "application"
       }
     },
-    ;;;;"Listener": {
-    ;;;;  "Type": "AWS::ElasticLoadBalancingV2::Listener",
-    ;;;;  "Properties": {
-    ;;;;    "DefaultActions": [{
-    ;;;;      "Type": "forward",
-    ;;;;      "TargetGroupArn": { "Ref": "myTargetGroup" }
-    ;;;;    }],
-    ;;;;    "LoadBalancerArn": { "Ref": "myLoadBalancer" },
-    ;;;;    "Port": "8000",
-    ;;;;    "Protocol": "HTTP"
-    ;;;;  }
-    ;;;;},
+    "httpListener": {
+      "Type": "AWS::ElasticLoadBalancingV2::Listener",
+      "Properties": {
+        "DefaultActions": [{
+          "Type": "forward",
+          "TargetGroupArn": { "Ref": "gitlabPublic" }
+        }],
+        "LoadBalancerArn": { "Ref": "gitlabLoadBalancer" },
+        "Port": "80",
+        "Protocol": "HTTP"
+      }
+    },
+    "httpsListener": {
+      "Type": "AWS::ElasticLoadBalancingV2::Listener",
+      "Properties": {
+        "DefaultActions": [{
+          "Type": "forward",
+          "TargetGroupArn": { "Ref": "gitlabPublic" }
+        }],
+        "LoadBalancerArn": { "Ref": "gitlabLoadBalancer" },
+        "Port": "443",
+        "Protocol": "HTTPS"
+      }
+    },
     "gitLabAutoScalingGroup" : {
       "Type": "AWS::AutoScaling::AutoScalingGroup",
       "Properties": {
