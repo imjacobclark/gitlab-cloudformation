@@ -60,19 +60,19 @@
       "Type": "AWS::EC2::InternetGateway"
     },
     "attachGitLabGatewayToGitLabVpc" : {
-      "Type" : "AWS::EC2::VPCGatewayAttachment",
-      "Properties" : {
-	"VpcId" : { "Ref" : "gitlabVpc" },
-	"InternetGatewayId" : { "Ref" : "gitlabGateway" }
+      "Type": "AWS::EC2::VPCGatewayAttachment",
+      "Properties": {
+	"VpcId": { "Ref": "gitlabVpc" },
+	"InternetGatewayId" : { "Ref": "gitlabGateway" }
       }
     },
     "gitlabRoute" : {
       "Type" : "AWS::EC2::Route",
       "DependsOn" : "gitlabGateway",
       "Properties" : {
-	"RouteTableId" : { "Ref" : "gitlabPublic" },
-	"DestinationCidrBlock" : "0.0.0.0/0",
-	"GatewayId" : { "Ref" : "gitlabGateway" }
+	"RouteTableId" : { "Ref": "gitlabPublic" },
+	"DestinationCidrBlock": "0.0.0.0/0",
+	"GatewayId" : { "Ref": "gitlabGateway" }
       }
     },
     "gitlabPublic10020Assoc" : {
@@ -85,17 +85,15 @@
     "gitlabPublic10000Assoc" : {
       "Type" : "AWS::EC2::SubnetRouteTableAssociation",
       "Properties" : {
-	"SubnetId" : { "Ref" : "gitlabPublic10000" },
-	"RouteTableId" : { "Ref" : "gitlabPublic" }
+	"SubnetId" : { "Ref": "gitlabPublic10000" },
+	"RouteTableId" : { "Ref": "gitlabPublic" }
       }
     },
     "gitlabSecurityGroup": {
       "Type": "AWS::EC2::SecurityGroup",
       "Properties": {
 	"GroupDescription": "GitLab Security Group",
-	"VpcId": {
-	  "Ref": "gitlabVpc"
-	},
+	"VpcId": { "Ref": "gitlabVpc" },
 	"SecurityGroupIngress": [
 	  {
 	    "IpProtocol": "tcp",
@@ -157,12 +155,13 @@
     "gitlabRedis": {
       "Type": "AWS::ElastiCache::CacheCluster",
       "Properties": {
+        "ClusterName": "gitlab-redis",
 	"AutoMinorVersionUpgrade": "true",
 	"Engine": "redis",
 	"EngineVersion": "3.2.10",
 	"CacheNodeType": "cache.t2.micro",
-	;;;;"NumCacheNodes": "1",
-	;;;;"VpcSecurityGroupIds": [{"Fn::GetAtt": [ "ElasticacheSecurityGroup", "GroupId"]}],
+	"NumCacheNodes": 2,
+	"VpcSecurityGroupIds": [{ "Ref": "gitlabSecurityGroup" ]}],
 	"CacheSubnetGroupName": "gitlabRedisSubnetGroup"
       }
     },
