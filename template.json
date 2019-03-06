@@ -239,7 +239,7 @@
           {
             "Ref": "gitlabLoadBalancer"
           }
-        ],    
+        ],
         "MinSize": "2",
         "MaxSize": "4",
         "VPCZoneIdentifier": [
@@ -250,15 +250,15 @@
             "Ref": "gitlabPrivate10030"
           }
         ],
-        "HealthCheckType": "ELB"
+        "HealthCheckType": "ELB",
+        "HealthCheckGracePeriod": 3600
       }
     },
     "gitlabLaunchConfig": {
       "Type": "AWS::AutoScaling::LaunchConfiguration",
       "Properties": {
         "InstanceType": "c4.xlarge",
-        "ImageId": "Gitlab EE 11.8.0",
-        "IamInstanceProfile": "GitLabAdmin",
+        "ImageId": "ami-004a0162b4796c659",
         "AssociatePublicIpAddress": false,
         "EbsOptimized": true,
         "InstanceMonitoring": true,
